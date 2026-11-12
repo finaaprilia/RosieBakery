@@ -1,0 +1,56 @@
+import type { ReactNode } from 'react'
+import { rupiah } from '@/lib/utils'
+import { STATUS_LABEL } from '@/lib/constants'
+import type { Order } from '@/lib/types'
+
+const STATUS_STYLE: Record<Order['status'], string> = {
+    pending: 'bg-kraft text-ink',
+    diproses: 'bg-crust text-white',
+    siap: 'bg-olive text-white',
+    selesai: 'bg-ink text-paper',
+    dibatalkan: 'bg-brick text-white',
+}
+
+// Kartu satu pesanan. `children` dipakai admin untuk menaruh kontrol ubah status.
+export default function OrderCard({ order, showCustomer = false, children }: { order: Order; showCustomer?: boolean; children?: ReactNode }) {
+    return (
+        <article className="border-2 border-ink bg-flour p-4 shadow-[4px_4px_0_#d8b98a]" style={{ borderRadius: 4 }}>
+            <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-dashed border-line pb-2">
+                <div>
+                    <p className="mono text-sm font-bold">Pesanan #{order.id}</p>
+                    <p className="text-xs text-ink/55">{order.created_label}</p>
+                </div>
+                <span className={`px-2 py-0.5 text-xs font-bold ${STATUS_STYLE[order.status]}`} style={{ borderRadius: 3 }}>
+                    {STATUS_LABEL[order.status]}
+                </span>
+            </div>
+
+            {showCustomer && (
+                <p className="mt-2 text-sm">
+                    <b>{order.customer_name}</b> <span className="text-ink/55">({order.user_email})</span>
+                </p>
+            )}
+
+            <ul className="mono mt-2 space-y-1 text-sm">
+                {order.items.map((it, i) => (
+                    <li key={i} className="flex justify-between gap-3">
+                        <span className="min-w-0 truncate">{it.qty}x {it.name}</span>
+                        <span className="shrink-0">{rupiah(it.qty * it.price)}</span>
+                    </li>
+                ))}
+            </ul>
+
+            <div className="mono mt-2 flex justify-between border-t border-dashed border-ink/40 pt-2 font-bold">
+                <span>TOTAL</span>
+                <span>{rupiah(order.total)}</span>
+            </div>
+
+            <p className="mt-2 text-sm text-ink/70">
+                {order.method === 'antar' ? `Diantar ke: ${order.address}` : 'Ambil di toko'}
+                {order.note ? ` · Catatan: ${order.note}` : ''}
+            </p>
+
+            {children && <div className="mt-3 border-t border-line pt-3">{children}</div>}
+        </article>
+    )
+}
