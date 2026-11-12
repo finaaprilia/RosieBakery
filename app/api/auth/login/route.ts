@@ -24,5 +24,5 @@ export async function POST(req: Request) {
     }
 
     await createSession({ id: user.id, name: user.name, email: user.email, role: user.role })
-    return NextResponse.json({ ok: true })
+    return NextResponse.json({ ok: true, role: user.role })
 }

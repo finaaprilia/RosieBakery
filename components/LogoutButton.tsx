@@ -11,6 +11,14 @@ export default function LogoutButton() {
     const logout = async () => {
         setBusy(true)
         await fetch('/api/auth/logout', { method: 'POST' })
+        try {
+            const ch = new BroadcastChannel('rosie-auth-channel')
+            ch.postMessage({ type: 'AUTH_CHANGED' })
+            ch.close()
+        } catch {}
+        try {
+            localStorage.setItem('rosie-auth-sync', Date.now().toString())
+        } catch {}
         router.replace('/')
         router.refresh()
     }

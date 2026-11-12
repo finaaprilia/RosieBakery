@@ -1,4 +1,12 @@
+'use client'
+
+import { usePathname } from 'next/navigation'
+
 export default function Footer() {
+    const pathname = usePathname()
+    // Halaman login dan register memiliki tampilan tersendiri
+    if (pathname === '/login' || pathname === '/register') return null
+
     const year = new Date().getFullYear()
 
     return (

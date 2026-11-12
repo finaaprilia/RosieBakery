@@ -27,7 +27,7 @@ export async function middleware(req: NextRequest) {
         return NextResponse.redirect(url)
     }
 
-    // Belum login -> ke halaman login
+    // Belum login -> ke halaman login (khusus rute yang dilindungi seperti /profile dan /admin)
     if (!role) {
         url.pathname = '/login'
         url.search = `?next=${encodeURIComponent(pathname)}`
@@ -45,5 +45,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/keranjang/:path*', '/profile/:path*', '/admin/:path*', '/login', '/register'],
+    matcher: ['/profile/:path*', '/admin/:path*', '/login', '/register'],
 }

@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { getSession } from '@/lib/auth'
 import { rupiah } from '@/lib/utils'
 import { getProducts } from '@/lib/db'
 import ProductCard from '@/components/ProductCard'
@@ -17,6 +19,11 @@ const COLLAGE_POS = [
 ]
 
 export default async function HomePage() {
+    const user = await getSession()
+    if (user?.role === 'admin') {
+        redirect('/admin')
+    }
+
     const products = await getProducts()
     const board = products.slice(0, 6)
     const withPhoto = products.filter((p) => p.image_url)

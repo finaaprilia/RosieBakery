@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Minus, Plus, Trash2, ReceiptText } from 'lucide-react'
 import { rupiah } from '@/lib/utils'
 import ProductImage from '@/components/ProductImage'
@@ -10,7 +11,8 @@ import { useCart } from '@/components/CartProvider'
 type Errors = { name?: string; address?: string; server?: string }
 
 export default function CartPage() {
-    const { user, lines, total, count, setQty, removeFromCart, clearCart, refresh } = useCart()
+    const router = useRouter()
+    const { user, lines, total, count, setQty, removeFromCart, clearCart, refresh, syncToDatabase } = useCart()
     const [name, setName] = useState(user?.name ?? '')
     const [method, setMethod] = useState<'ambil' | 'antar'>('ambil')
     const [address, setAddress] = useState('')
@@ -53,7 +55,14 @@ export default function CartPage() {
         setErrors(err)
         if (err.name || err.address) return
 
+        if (!user) {
+            router.push(`/login?next=${encodeURIComponent('/keranjang')}`)
+            return
+        }
+
         setSubmitting(true)
+        await syncToDatabase()
+
         const res = await fetch('/api/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -66,7 +75,7 @@ export default function CartPage() {
             setSubmitting(false)
             return
         }
-        await refresh() // keranjang sudah dikosongkan server
+        await clearCart()
         setOrderId(data.orderId)
         setSubmitting(false)
     }
@@ -173,6 +182,11 @@ export default function CartPage() {
                         <button onClick={handleCheckout} disabled={submitting} className="btn btn-primary w-full !py-3 text-base">
                             <ReceiptText size={19} /> {submitting ? 'Memproses...' : 'Buat pesanan'}
                         </button>
+                        {!user && (
+                            <p className="text-center text-xs text-ink/70">
+                                Kamu belum masuk. <Link href={`/login?next=${encodeURIComponent('/keranjang')}`} className="font-bold text-crust underline">Masuk atau Daftar</Link> untuk menyelesaikan pesanan.
+                            </p>
+                        )}
                         <p className="text-center text-xs text-ink/55">Pembayaran dilakukan saat pesanan diambil atau diantar.</p>
                     </div>
                 </div>

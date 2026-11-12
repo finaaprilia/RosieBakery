@@ -51,7 +51,11 @@ export default function ProductCard({ product, index = 0, onEdit, onDelete }: Pr
                     </span>
                     {!isAdminView && (
                         <button
-                            onClick={() => addToCart(product)}
+                            type="button"
+                            onClick={(e) => {
+                                e.preventDefault()
+                                addToCart(product)
+                            }}
                             disabled={soldOut || inCart >= stock}
                             className="btn btn-ghost !px-3 !py-1.5 text-sm"
                         >
