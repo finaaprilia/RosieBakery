@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Young Serif", Georgia, serif;
+  --font-sans: "Karla", system-ui, sans-serif;
+  --font-hand: "Kalam", "Comic Sans MS", cursive;
+  --color-crust: #b4532a;
+  --color-crust-dark: #8f3f1e;
+  --color-paper: #f4ecde;
+  --color-flour: #fbf6ec;
+  --color-ink: #2a1c13;
+  --color-kraft: #d8b98a;
+  --color-line: #d6c7ad;
+  --color-olive: #56642f;
+  --color-brick: #9b2c2c;
+}
+
+html,
+body {
+  background-color: var(--color-paper);
+  /* serat kertas halus */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.hand {
+  font-family: var(--font-hand);
+}
+
+@layer components {
+
+  /* Tombol: sudut hanya 4px */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    border-radius: 4px;
+    padding: .6rem 1.1rem;
+    font-weight: 700;
+    font-size: .95rem;
+    border: 1.5px solid var(--color-ink);
+    transition: transform .1s, background .15s, color .15s;
+    cursor: pointer;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background: var(--color-crust);
+    border-color: var(--color-crust);
+    color: #fff;
+    box-shadow: 3px 3px 0 var(--color-ink);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-crust-dark);
+    border-color: var(--color-crust-dark);
+  }
+
+  .btn-primary:active {
+    box-shadow: 1px 1px 0 var(--color-ink);
+    transform: translate(2px, 2px);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-ink);
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    background: var(--color-flour);
+  }
+
+  .btn-wa {
+    background: #1f7a4d;
+    border-color: #1f7a4d;
+    color: #fff;
+    box-shadow: 3px 3px 0 var(--color-ink);
+  }
+
+  .btn-wa:hover:not(:disabled) {
+    background: #186339;
+    border-color: #186339;
+  }
+
+  .btn-wa:active {
+    box-shadow: 1px 1px 0 var(--color-ink);
+    transform: translate(2px, 2px);
+  }
+
+  .input {
+    width: 100%;
+    border: 1.5px solid var(--color-line);
+    background: var(--color-flour);
+    border-radius: 4px;
+    padding: .6rem .75rem;
+    outline: none;
+  }
+
+  .input:focus {
+    border-color: var(--color-crust);
+  }
+
+  .label {
+    display: block;
+    margin-bottom: .3rem;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-ink) 65%, transparent);
+  }
+
+  /* Label harga seperti price tag kertas kraft */
+  .price-tag {
+    display: inline-block;
+    background: var(--color-kraft);
+    color: var(--color-ink);
+    padding: .2rem 1.1rem .2rem .7rem;
+    font-weight: 700;
+    font-size: .95rem;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
+    transform: rotate(-2deg);
+    transform-origin: left center;
+  }
+
+  /* Foto dengan bingkai dan bayangan keras (seperti ditempel) */
+  .photo {
+    background: var(--color-kraft);
+    border: 2px solid var(--color-ink);
+    overflow: hidden;
+    border-radius: 3px;
+  }
+
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Lakban */
+  .tape {
+    position: absolute;
+    width: 74px;
+    height: 22px;
+    background: rgba(216, 185, 138, .78);
+    border-left: 2px dotted rgba(42, 28, 19, .18);
+    border-right: 2px dotted rgba(42, 28, 19, .18);
+  }
+
+  /* Struk belanja dengan tepi bergerigi */
+  .receipt {
+    background: #fffdf8;
+    padding: 1.5rem 1.25rem;
+    position: relative;
+    box-shadow: 0 1px 0 var(--color-line), 0 0 0 1px var(--color-line);
+    --z: 10px;
+    -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--z) 100%;
+    mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--z) 100%;
+    padding-bottom: calc(1.5rem + var(--z) / 2);
+  }
+
+  .mono {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fade-up {
+  animation: fade-up .35s ease both;
+}
+
+@keyframes bump {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(1.35);
+  }
+}
+
+.bump {
+  animation: bump .35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .fade-up,
+  .bump {
+    animation: none !important;
+  }
+}
