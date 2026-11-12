@@ -1,8 +1,6 @@
-// File: D:\RosieBakery\app\admin\page.tsx
+// File: D:\KULIAH\SEMESTER 5\SISTEM INTEGRASI\RosieBakery-main\app\admin\page.tsx
 import * as entry from '../../../../app/admin/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
-
-import type { InstantConfigForTypeCheckInternal, Prefetch, EnsureStatic } from 'next/dist/build/segment-config/app/app-segment-config.js'
 
 type TEntry = typeof import('../../../../app/admin/page.js')
 
@@ -15,17 +13,10 @@ checkFields<Diff<{
   default: Function
   config?: {}
   generateStaticParams?: Function
-  unstable_paramMatching?: {}
-  unstable_generateParamMatching?: Function
-  instant?: InstantConfigForTypeCheckInternal
-  prefetch?: Prefetch
-  ensureStatic?: EnsureStatic
-  unstable_dynamicStaleTime?: number
   revalidate?: RevalidateRange<TEntry> | false
   dynamic?: 'auto' | 'force-dynamic' | 'error' | 'force-static'
   dynamicParams?: boolean
   fetchCache?: 'auto' | 'force-no-store' | 'only-no-store' | 'default-no-store' | 'default-cache' | 'only-cache' | 'force-cache'
-  /** @deprecated The `preferredRegion` config is deprecated. Remove this export. */
   preferredRegion?: 'auto' | 'global' | 'home' | string | string[]
   runtime?: 'nodejs' | 'experimental-edge' | 'edge'
   maxDuration?: number
@@ -34,6 +25,7 @@ checkFields<Diff<{
   generateMetadata?: Function
   viewport?: any
   generateViewport?: Function
+  experimental_ppr?: boolean
   
 }, TEntry, ''>>()
 

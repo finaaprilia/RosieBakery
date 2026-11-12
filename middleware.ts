@@ -3,7 +3,7 @@ import { jwtVerify } from 'jose'
 
 const SESSION_COOKIE = 'rosie_session' // harus sama dengan lib/auth.ts
 
-export async function proxy(req: NextRequest) {
+export async function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl
 
     let role: string | null = null
