@@ -5,7 +5,12 @@ import { getSession, requireAdmin } from '@/lib/auth'
 import { ORDER_STATUSES } from '@/lib/constants'
 
 // Riwayat pesanan milik user yang sedang login
-export async function GET() {
+export async function GET(req: Request) {
+    const key = req.headers.get('x-api-key')
+    if (key && key === process.env.SERVICE_API_KEY) {
+        return NextResponse.json({ orders: await getOrders() }) // semua pesanan, untuk Service B
+    }
+
     const session = await getSession()
     if (!session) return NextResponse.json({ error: 'Silakan login dulu' }, { status: 401 })
     return NextResponse.json({ orders: await getOrders(session.id) })

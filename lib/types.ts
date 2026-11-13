@@ -32,6 +32,7 @@ export type Order = {
     total: number
     status: OrderStatus
     created_label: string
+    created_date: string      // <-- tambahan
     items: OrderItem[]
     user_email?: string
 }

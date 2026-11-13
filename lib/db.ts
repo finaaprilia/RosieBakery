@@ -42,6 +42,7 @@ export async function getOrders(userId?: number): Promise<Order[]> {
     const rows = await sql`
     SELECT o.id, o.customer_name, o.method, o.address, o.note, o.total, o.status,
            to_char(o.created_at AT TIME ZONE 'Asia/Jakarta', 'DD Mon YYYY, HH24:MI') AS created_label,
+           to_char(o.created_at AT TIME ZONE 'Asia/Jakarta', 'YYYY-MM-DD') AS created_date,
            u.email AS user_email,
            COALESCE(
              json_agg(json_build_object('name', oi.name_snapshot, 'qty', oi.qty, 'price', oi.price_snapshot)
