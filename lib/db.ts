@@ -44,6 +44,7 @@ export async function getOrders(userId?: number): Promise<Order[]> {
            to_char(o.created_at AT TIME ZONE 'Asia/Jakarta', 'DD Mon YYYY, HH24:MI') AS created_label,
            to_char(o.created_at AT TIME ZONE 'Asia/Jakarta', 'YYYY-MM-DD') AS created_date,
            u.email AS user_email,
+           u.phone AS user_phone,
            COALESCE(
              json_agg(json_build_object('name', oi.name_snapshot, 'qty', oi.qty, 'price', oi.price_snapshot)
                       ORDER BY oi.id) FILTER (WHERE oi.id IS NOT NULL),
@@ -52,7 +53,7 @@ export async function getOrders(userId?: number): Promise<Order[]> {
     JOIN users u ON u.id = o.user_id
     LEFT JOIN order_items oi ON oi.order_id = o.id
     WHERE (${userId ?? null}::int IS NULL OR o.user_id = ${userId ?? null}::int)
-    GROUP BY o.id, u.email
+    GROUP BY o.id, u.email, u.phone
     ORDER BY o.id DESC`
     return rows as Order[]
 }

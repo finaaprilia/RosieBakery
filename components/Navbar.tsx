@@ -82,11 +82,12 @@ export default function Navbar() {
                 {isAdmin && (
                     <Link
                         href="/profile"
-                        className={`flex items-center gap-1.5 text-xs font-bold transition ${active('/profile') ? 'text-crust' : 'text-ink/60 hover:text-ink'
+                        aria-label="Profil"
+                        title="Profil"
+                        className={`flex items-center justify-center p-1.5 transition ${active('/profile') ? 'text-crust' : 'text-ink/60 hover:text-ink'
                             }`}
                     >
-                        <User size={18} strokeWidth={active('/profile') ? 2.4 : 1.8} />
-                        Profil
+                        <User size={20} strokeWidth={active('/profile') ? 2.4 : 1.8} />
                     </Link>
                 )}
             </header>

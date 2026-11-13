@@ -35,4 +35,5 @@ export type Order = {
     created_date: string      // <-- tambahan
     items: OrderItem[]
     user_email?: string
+    user_phone?: string | null
 }
